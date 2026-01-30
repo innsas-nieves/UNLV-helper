@@ -23,6 +23,12 @@ st.markdown(
             font-weight: 600;
             margin-top: 1rem;
         }
+        .guidance-box {
+            background-color: #F5F5F5;
+            border-left: 4px solid #B10202;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
     </style>
     """,
     unsafe_allow_html=True
@@ -30,7 +36,7 @@ st.markdown(
 
 st.markdown("<h1 class='unlv-header'>UNLV IT – Internal AI Helper</h1>", unsafe_allow_html=True)
 st.markdown(
-    "<p class='unlv-subtext'>Prototype tool for internal IT use to explore documentation, troubleshoot issues, and suggest routing. Not a ticketing system.</p>",
+    "<p class='unlv-subtext'>Prototype tool for internal IT use to explore documentation, troubleshoot issues, and think through routing. Not a ticketing system.</p>",
     unsafe_allow_html=True
 )
 
@@ -102,40 +108,39 @@ with col1:
             type=["png", "jpg", "jpeg"]
         )
 
-    analyze = st.button("Analyze and suggest")
+    analyze = st.button("Analyze")
 
 with col2:
-    st.markdown("<h3 class='section-header'>AI-assisted suggestions</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 class='section-header'>AI-assisted context</h3>", unsafe_allow_html=True)
 
     if analyze:
-        st.markdown("**Likely issue type**")
+        st.markdown("**Observed issue pattern**")
         st.write(issue_category if issue_category != "Select one" else "Needs clarification")
 
-        st.markdown("**Relevant documentation**")
+        st.markdown("**Potentially relevant documentation**")
         st.write(
             "- Panopto: Recording permissions overview\n"
             "- Zoom: Scheduling meetings for others\n"
             "- Canvas: Course tool visibility settings"
         )
 
-        st.markdown("**Suggested routing**")
-        st.write("UNLV IT → Instructional Technology")
+        st.markdown("**Likely support area**")
+        st.write("UNLV IT – Instructional Technology")
 
-        st.markdown("**Notes**")
-        st.write(
-            "Based on the selected service and task intent, this appears to be a common configuration or access-related issue."
-        )
+        if st.button("Suggested next step"):
+            st.markdown(
+                """
+                <div class="guidance-box">
+                    <strong>Suggested next step</strong><br><br>
+                    Review the documentation listed above to confirm whether it matches the scenario.
+                    <br><br>
+                    If the issue persists or appears non-standard, this would likely be routed to
+                    <strong>UNLV IT – Instructional Technology (Tier II)</strong>.
+                    <br><br>
+                    Use the summary above when escalating.
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
     else:
-        st.info("Fill out the fields on the left and click **Analyze and suggest**.")
-
-# ---- Ticket handoff (explicitly non-functional) ----
-st.divider()
-
-st.markdown("<h3 class='section-header'>Next step</h3>", unsafe_allow_html=True)
-st.markdown(
-    "<p class='unlv-subtext'>This prototype does not create a ticket. "
-    "In a future state, a clean summary and suggested routing could be passed to TDX or Salesforce.</p>",
-    unsafe_allow_html=True
-)
-
-st.button("Create ticket (not connected)")
+        st.info("Fill out the fields on the left and click **Analyze** to see suggested context.")
