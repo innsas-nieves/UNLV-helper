@@ -23,8 +23,8 @@ st.markdown(
             font-weight: 600;
             margin-top: 1rem;
         }
-        .guidance-box {
-            background-color: #F5F5F5;
+        .step-box {
+            background-color: #F7F7F7;
             border-left: 4px solid #B10202;
             padding: 1rem;
             margin-top: 1rem;
@@ -36,7 +36,7 @@ st.markdown(
 
 st.markdown("<h1 class='unlv-header'>UNLV IT – Internal AI Helper</h1>", unsafe_allow_html=True)
 st.markdown(
-    "<p class='unlv-subtext'>Prototype tool for internal IT use to explore documentation, troubleshoot issues, and think through routing. Not a ticketing system.</p>",
+    "<p class='unlv-subtext'>Prototype tool for internal IT use to explore what information helps guide troubleshooting and escalation. Not a ticketing system.</p>",
     unsafe_allow_html=True
 )
 
@@ -50,7 +50,7 @@ with col1:
         label="",
         placeholder=(
             "Include relevant keywords, exact error messages, system names, feature labels, "
-            "or UI text if available. Specific details help surface better documentation and next steps."
+            "or UI text if available. Specific details help surface better troubleshooting steps."
         ),
         height=180
     )
@@ -108,39 +108,55 @@ with col1:
             type=["png", "jpg", "jpeg"]
         )
 
-    analyze = st.button("Analyze")
+    analyze = st.button("Analyze and review troubleshooting steps")
 
 with col2:
-    st.markdown("<h3 class='section-header'>AI-assisted context</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 class='section-header'>Guided review</h3>", unsafe_allow_html=True)
 
     if analyze:
-        st.markdown("**Observed issue pattern**")
-        st.write(issue_category if issue_category != "Select one" else "Needs clarification")
+        # Step 1
+        st.markdown("**Step 1: Review likely troubleshooting steps**")
 
-        st.markdown("**Potentially relevant documentation**")
-        st.write(
-            "- Panopto: Recording permissions overview\n"
-            "- Zoom: Scheduling meetings for others\n"
-            "- Canvas: Course tool visibility settings"
+        st.markdown(
+            """
+            <div class="step-box">
+                <strong>Common issue pattern</strong><br>
+                """
+            + (issue_category if issue_category != "Select one" else "Pattern unclear based on current inputs")
+            + """
+                <br><br>
+                <strong>Relevant documentation to review</strong>
+                <ul>
+                    <li>Panopto: Recording permissions overview</li>
+                    <li>Zoom: Scheduling meetings for others</li>
+                    <li>Canvas: Course tool visibility settings</li>
+                </ul>
+                Try the steps in the documentation above to see if they resolve the issue.
+            </div>
+            """,
+            unsafe_allow_html=True
         )
 
-        st.markdown("**Likely support area**")
-        st.write("UNLV IT – Instructional Technology")
+        # Step 2
+        st.markdown("**Step 2: If the issue persists, escalate**")
 
-        if st.button("Suggested next step"):
-            st.markdown(
-                """
-                <div class="guidance-box">
-                    <strong>Suggested next step</strong><br><br>
-                    Review the documentation listed above to confirm whether it matches the scenario.
-                    <br><br>
-                    If the issue persists or appears non-standard, this would likely be routed to
-                    <strong>UNLV IT – Instructional Technology (Tier II)</strong>.
-                    <br><br>
-                    Use the summary above when escalating.
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+        st.markdown(
+            """
+            <div class="step-box">
+                If the troubleshooting steps above do not resolve the issue, this would likely be escalated to:
+                <br><br>
+                <strong>UNLV IT – Instructional Technology (Tier II)</strong>
+                <br><br>
+                When escalating, include:
+                <ul>
+                    <li>What you were trying to accomplish</li>
+                    <li>What troubleshooting steps were attempted</li>
+                    <li>Any error messages or screenshots</li>
+                </ul>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
     else:
-        st.info("Fill out the fields on the left and click **Analyze** to see suggested context.")
+        st.info("Fill out the fields on the left and click **Analyze and review troubleshooting steps**.")
