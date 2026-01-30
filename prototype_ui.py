@@ -1,20 +1,52 @@
 import streamlit as st
 
-st.set_page_config(page_title="Internal IT AI Helper (Prototype)", layout="wide")
+# ---- Page config ----
+st.set_page_config(
+    page_title="UNLV IT – Internal AI Helper (Prototype)",
+    layout="wide"
+)
 
-st.title("Internal IT AI Helper")
-st.caption("Prototype UI for exploring inputs that improve retrieval and routing. Not a ticketing system.")
+# ---- UNLV IT branding ----
+st.markdown(
+    """
+    <style>
+        .unlv-header {
+            color: #B10202; /* UNLV Red */
+            font-weight: 700;
+        }
+        .unlv-subtext {
+            color: #5A5A5A; /* UNLV Gray */
+            font-size: 0.95rem;
+        }
+        .section-header {
+            color: #5A5A5A;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown("<h1 class='unlv-header'>UNLV IT – Internal AI Helper</h1>", unsafe_allow_html=True)
+st.markdown(
+    "<p class='unlv-subtext'>Prototype tool for internal IT use to explore documentation, troubleshoot issues, and suggest routing. Not a ticketing system.</p>",
+    unsafe_allow_html=True
+)
 
 # ---- Layout ----
 col1, col2 = st.columns([1, 1])
 
 with col1:
-    st.subheader("Describe the issue")
+    st.markdown("<h3 class='section-header'>Describe the issue</h3>", unsafe_allow_html=True)
 
     problem_description = st.text_area(
-        "What’s going on?",
-        placeholder="What are you trying to do? What’s not working? Any error messages?",
-        height=150
+        label="",
+        placeholder=(
+            "Include relevant keywords, exact error messages, system names, feature labels, "
+            "or UI text if available. Specific details help surface better documentation and next steps."
+        ),
+        height=180
     )
 
     affected_service = st.selectbox(
@@ -62,25 +94,18 @@ with col1:
         placeholder="e.g., record a lecture, share a video, schedule a meeting"
     )
 
-    impact = st.radio(
-        "Impact",
-        ["Blocking work", "Workaround exists", "General question"],
-        horizontal=True
-    )
-
     include_screenshot = st.checkbox("Upload a screenshot for context (optional)")
 
     if include_screenshot:
-        screenshot = st.file_uploader(
+        st.file_uploader(
             "Screenshot (internal context only)",
             type=["png", "jpg", "jpeg"]
         )
 
     analyze = st.button("Analyze and suggest")
 
-# ---- Output / Mocked AI Response ----
 with col2:
-    st.subheader("AI-assisted suggestions")
+    st.markdown("<h3 class='section-header'>AI-assisted suggestions</h3>", unsafe_allow_html=True)
 
     if analyze:
         st.markdown("**Likely issue type**")
@@ -94,23 +119,23 @@ with col2:
         )
 
         st.markdown("**Suggested routing**")
-        st.write("Instructional Technology → Media Systems")
+        st.write("UNLV IT → Instructional Technology")
 
         st.markdown("**Notes**")
         st.write(
-            "Based on the selected service and task intent, this appears to be a common access or configuration issue."
+            "Based on the selected service and task intent, this appears to be a common configuration or access-related issue."
         )
-
     else:
         st.info("Fill out the fields on the left and click **Analyze and suggest**.")
 
-# ---- Ticket Handoff ----
+# ---- Ticket handoff (explicitly non-functional) ----
 st.divider()
 
-st.subheader("Next step")
-st.caption("This does not create a ticket.")
-
-st.button("Create ticket in TDX (not wired)")
-st.caption(
-    "This would pass a clean summary, suggested routing, and metadata to TDX/Salesforce."
+st.markdown("<h3 class='section-header'>Next step</h3>", unsafe_allow_html=True)
+st.markdown(
+    "<p class='unlv-subtext'>This prototype does not create a ticket. "
+    "In a future state, a clean summary and suggested routing could be passed to TDX or Salesforce.</p>",
+    unsafe_allow_html=True
 )
+
+st.button("Create ticket (not connected)")
